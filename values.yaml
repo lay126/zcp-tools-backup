@@ -1,0 +1,53 @@
+# Default values for tools-backup.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  kubectl:
+    repository: lachlanevenson/k8s-kubectl
+    tag: v1.9.7
+    pullPolicy: IfNotPresent
+  s3:
+    repository: mesosphere/aws-cli
+    tag: 1.14.5
+    pullPolicy: IfNotPresent
+
+
+config:
+  data:
+    backup-jenkins.sh:
+      file: resources/backup-jenkins.sh
+    backup-gitea.sh:
+      file: resources/backup-gitea.sh
+    upload-to-s3.sh:
+      file: resources/upload-to-s3.sh
+#   setenv:
+#     file: resources/setenv
+
+jenkins:
+  enabled: true
+  schedule: "*/2 * * * *"
+  serviceAccountSecretName: 
+
+gitea:
+  enabled: true
+  schedule: "*/2 * * * *"
+  serviceAccountSecretName: 
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
