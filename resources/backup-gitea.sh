@@ -1,9 +1,10 @@
 #!/bin/sh
 BIN="$( cd "$( dirname "$0" )" && pwd )"   # https://stackoverflow.com/a/20434740
 
-echo -e "\n\n+ Load environment variables..."
-source $BIN/setenv   # https://stackoverflow.com/a/13360474
-cat $BIN/setenv      # for logging
+# Inject through pod environment variables
+#echo -e "\n\n+ Load environment variables..."
+#source $BIN/setenv   # https://stackoverflow.com/a/13360474
+#cat $BIN/setenv      # for logging
 
 # Find Gitea Pod
 #POD=git-gitea-5cfdbb68cf-xwm7c

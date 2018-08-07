@@ -10,7 +10,7 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   schedule: "{{ .Values.jenkins.schedule }}"
-  concurrencyPolicy: Forbid   # https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/
+  concurrencyPolicy: "{{ .Values.gitea.concurrencyPolicy }}"
   jobTemplate:
     spec:
       template:
@@ -21,6 +21,11 @@ spec:
             imagePullPolicy: {{ .Values.image.kubectl.pullPolicy }}
             command: ["/bin/sh"]
             args: ["/app/scripts/backup-jenkins.sh"]
+            env:
+            {{- range $key, $val := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $val }}
+            {{- end }}
             resources:
 {{ toYaml .Values.resources | indent 14 }}
             volumeMounts:
@@ -38,6 +43,11 @@ spec:
             imagePullPolicy: {{ .Values.image.s3.pullPolicy }}
             command: ["/bin/sh"]
             args: ["/app/scripts/upload-to-s3.sh"]
+            env:
+            {{- range $key, $val := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $val }}
+            {{- end }}
             resources:
 {{ toYaml .Values.resources | indent 14 }}
             volumeMounts:

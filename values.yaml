@@ -12,6 +12,17 @@ image:
     tag: 1.14.5
     pullPolicy: IfNotPresent
 
+# Environment variables for each pod of job
+env:
+  BACKUP_DIR: /tmp
+  GITEA_DEPLOY: git-gitea
+  JENKINS_DEPLOY: zcp-jenkins
+  S3_TRIGGER: /tmp/.flag
+  #AWS_ACCESS_KEY_ID: 
+  #AWS_SECRET_ACCESS_KEY: 
+  #S3_ENDPOINT: https://xxxx.objectstorage.softlayer.net
+  #S3_BUCKET: zcp-backup
+
 
 config:
   data:
@@ -24,15 +35,18 @@ config:
 #   setenv:
 #     file: resources/setenv
 
+# Configruation for each cronjob.
 jenkins:
   enabled: true
-  schedule: "*/2 * * * *"
-  serviceAccountSecretName: 
+  schedule: 5 * * * *
+  concurrencyPolicy: Forbid   # https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/
+  serviceAccount: 
 
 gitea:
   enabled: true
-  schedule: "*/2 * * * *"
-  serviceAccountSecretName: 
+  schedule: 5 * * * *
+  concurrencyPolicy: Forbid
+  serviceAccount: 
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 RELEASE=git
 GIT_POD=$(kubectl get pods --no-headers=true -o custom-columns=:.metadata.name | grep -- $RELEASE-gitea)
