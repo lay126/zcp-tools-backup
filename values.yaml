@@ -15,9 +15,9 @@ image:
 # Environment variables for each pod of job
 env:
   BACKUP_DIR: /tmp
+  S3_TRIGGER: /tmp/.flag
   GITEA_DEPLOY: git-gitea
   JENKINS_DEPLOY: zcp-jenkins
-  S3_TRIGGER: /tmp/.flag
   #AWS_ACCESS_KEY_ID: 
   #AWS_SECRET_ACCESS_KEY: 
   #S3_ENDPOINT: https://xxxx.objectstorage.softlayer.net
