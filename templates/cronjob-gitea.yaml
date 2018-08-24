@@ -11,6 +11,12 @@ metadata:
 spec:
   schedule: "{{ .Values.gitea.schedule }}"
   concurrencyPolicy: "{{ .Values.gitea.concurrencyPolicy }}"
+{{ if .Values.gitea.successfulJobsHistoryLimit }}
+  successfulJobsHistoryLimit: "{{ .Values.gitea.successfulJobsHistoryLimit }}"
+{{- end }}
+{{ if .Values.gitea.failedJobsHistoryLimit }}
+  failedJobsHistoryLimit: "{{ .Values.gitea.failedJobsHistoryLimit }}"
+{{- end }}
   jobTemplate:
     spec:
       template:
