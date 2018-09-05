@@ -16,7 +16,7 @@ image:
 env:
   BACKUP_DIR: /tmp
   S3_TRIGGER: /tmp/.flag
-  GITEA_DEPLOY: git-gitea
+  GITEA_DEPLOY: gitea-gitea
   JENKINS_DEPLOY: zcp-jenkins
   #AWS_ACCESS_KEY_ID: 
   #AWS_SECRET_ACCESS_KEY: 
