@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RELEASE=git
+RELEASE=zcp-git
 GIT_POD=$(kubectl get pods --no-headers=true -o custom-columns=:.metadata.name | grep -- $RELEASE-gitea)
 DB_POD=$(kubectl get pods --no-headers=true -o custom-columns=:.metadata.name | grep -- $RELEASE-postgresql)
 
