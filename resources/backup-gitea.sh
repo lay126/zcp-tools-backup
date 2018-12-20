@@ -18,11 +18,11 @@ fi
 
 # 
 GITEA=/app/gitea
-DUMP_PETTERN=$GITEA/gitea-dump-*.zip
+DUMP_PATTERN=$GITEA/gitea-dump-*.zip
 
 echo -e "\n\n+ Dump gitea data..."
 time kubectl exec -i $POD -- bash -c "cd $GITEA && ./gitea dump "
-kubectl exec -i $POD -- bash -c "ls -t $DUMP_PETTERN | head -n1" > latest
+kubectl exec -i $POD -- bash -c "ls -t $DUMP_PATTERN | head -n1" > latest
 tr -d '\r' <latest >latest.tmp && mv latest.tmp latest    # https://unix.stackexchange.com/a/259991
 
 # Logging Backup Status
@@ -37,6 +37,7 @@ fi
 
 echo -e "\n\n+ Copy dump files..."
 kubectl cp $POD:$(cat latest) $BACKUP_DIR
+mv $BACKUP_DIR/$(basename $(cat latest)) $BACKUP_DIR/gitea-dump-$(TZ='' date +%Y%m%d-%H%M).zip
 kubectl exec -i $POD -- bash -c "rm -f $(cat latest)"
 ls -l $BACKUP_DIR
 
