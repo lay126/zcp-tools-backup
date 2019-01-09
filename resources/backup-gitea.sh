@@ -8,7 +8,7 @@ BIN="$( cd "$( dirname "$0" )" && pwd )"   # https://stackoverflow.com/a/2043474
 
 # Find Gitea Pod
 #POD=git-gitea-5cfdbb68cf-xwm7c
-POD=$(kubectl get pods --no-headers=true -o custom-columns=:.metadata.name | grep -- $GITEA_DEPLOY)
+POD=$(kubectl get pods --no-headers=true | grep Running | grep -- $GITEA_DEPLOY | awk {'print $1'})
 if [ -z "$POD" ]; then
 	echo -e '\n\n+ ERROR :: There is no gitea pod.'
 	kubectl get pods
