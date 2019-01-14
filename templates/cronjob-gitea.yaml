@@ -77,7 +77,8 @@ spec:
               defaultMode: 0755
               name: "{{ template "tools-backup.fullname" . }}-script"
           - name: timezone
-            mountPath: /etc/localtime
+            hostPath:
+              path: /usr/share/zoneinfo/Asia/Seoul
 {{- if .Values.jenkins.serviceAccountSecretName }}
           - name: service-account-secret-name
             secret:
