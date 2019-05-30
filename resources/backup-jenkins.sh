@@ -6,7 +6,8 @@ BIN="$( cd "$( dirname "$0" )" && pwd )"   # https://stackoverflow.com/a/2043474
 #source $BIN/setenv   # https://stackoverflow.com/a/13360474
 #cat $BIN/setenv      # for logging
 
-BACKUP=$BACKUP_DIR/jenkins-home-$(TZ='' date +%Y%m%d-%H%M)
+BACKUP_NAME=jenkins-home-$(TZ='' date +%Y%m%d-%H%M)
+BACKUP=$BACKUP_DIR/$BACKUP_NAME
 mkdir -p $BACKUP
 
 POD=$(kubectl get pods --no-headers=true -o custom-columns=:.metadata.name | grep -- $JENKINS_DEPLOY)
@@ -25,12 +26,21 @@ echo -e "\n\n+ Copy... [pod/$POD -> $BACKUP]"
 #	apk add rsync
 #fi
 #time rsync -av -e './rsh.sh' --blocking-io $POD:/var/jenkins_home $BACKUP
-time kubectl cp $POD:/var/jenkins_home $BACKUP
-ls -l $BACKUP
+
+echo -e '\n\n+ jekins_home copy…’
+time kubectl exec -it $POD mkdir appdata
+time kubectl exec -it $POD -- cp -rf /var/jenkins_home /appdata/$BACKUP_NAME
 
 echo -e '\n\n+ Compress...'
-time tar -zcvf $BACKUP.tgz $BACKUP > $BACKUP.log
-rm -rf $BACKUP
+time kubectl exec -it $POD -- tar -zcvf /appdata/$BACKUP_NAME.tgz /appdata/$BACKUP_NAME
+time kubectl exec -it $POD -- rm -rf appdata/$BACKUP_NAME
+#time tar -zcvf $BACKUP.tgz $BACKUP > $BACKUP.log
+#rm -rf $BACKUP
+
+time kubectl cp $POD:/appdata/$BACKUP_NAME.tgz $BACKUP
+
+#time kubectl cp $POD:/var/jenkins_home $BACKUP
+ls -l $BACKUP
 
 ls -l $BACKUP_DIR
 
