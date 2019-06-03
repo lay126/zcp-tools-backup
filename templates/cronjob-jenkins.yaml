@@ -45,7 +45,11 @@ spec:
             - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
               name: service-account-secret-name
               readOnly: true
-{{ end }}
+          Volumes: 
+          - name: timezone
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Seoul
+{{ end }} 
           - name: s3
             image: {{ .Values.image.s3.repository }}:{{ .Values.image.s3.tag }}
             imagePullPolicy: {{ .Values.image.s3.pullPolicy }}
